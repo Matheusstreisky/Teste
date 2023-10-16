@@ -24,8 +24,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ github.head_ref }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven-${{ github.head_ref }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
 
       - name: Clean and build
         run: mvn -B -e clean install -DskipTests

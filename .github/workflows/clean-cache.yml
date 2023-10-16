@@ -1,0 +1,19 @@
+name: Clean Maven Cache
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+    types:
+      - closed
+
+jobs:
+  delete-cache:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Delete maven cache
+        run: rm -rf $HOME/.m2/repository
