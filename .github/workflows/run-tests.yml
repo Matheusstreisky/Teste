@@ -7,9 +7,22 @@ on:
       - dev
 
 jobs:
-  run-tests:
+  cache:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
+      - name: Create maven cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+  build:
+    needs: cache
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -20,5 +33,5 @@ jobs:
           distribution: 'temurin'
           architecture: x64
 
-      - name: Run tests
-        run: mvn -B -e verify
+      - name: Cleand and build
+        run: mvn -B clean install
